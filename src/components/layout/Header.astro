@@ -1,0 +1,38 @@
+---
+const navItems = [
+  { label: 'Get the App', href: '/' },
+  { label: 'Piglets', href: '/piglets' },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="flex items-center" aria-label="Lightning Piggy App home">
+        <img src="/images/branding/lightningpiggy-logo.svg" alt="Lightning Piggy" class="h-10 w-auto" />
+      </a>
+
+      <div class="flex items-center gap-1 sm:gap-2">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+              currentPath === item.href ? 'text-pink' : 'text-gray-700 hover:text-pink'
+            }`}
+          >
+            {item.label}
+          </a>
+        ))}
+        <a
+          href="https://lightningpiggy.com"
+          class="ml-1 sm:ml-2 px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+        >
+          <span class="hidden sm:inline">lightningpiggy.com</span>
+          <span class="sm:hidden">Main site</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>

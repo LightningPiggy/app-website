@@ -1,0 +1,23 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-gray-100 bg-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="/images/branding/lightningpiggy-logo.svg" alt="Lightning Piggy" class="h-8 w-auto" />
+        <p class="text-sm text-gray-500">The Lightning Piggy mobile app</p>
+      </div>
+      <nav class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+        <a href="/" class="text-gray-600 hover:text-pink transition-colors">Get the App</a>
+        <a href="/piglets" class="text-gray-600 hover:text-pink transition-colors">Piglets</a>
+        <a href="https://lightningpiggy.com" class="text-gray-600 hover:text-pink transition-colors">lightningpiggy.com</a>
+        <a href="https://github.com/LightningPiggy" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-pink transition-colors">GitHub</a>
+      </nav>
+    </div>
+    <p class="mt-8 text-xs text-gray-400">
+      &copy; {year} Lightning Piggy. Open source. The app is serverless - it talks directly to Nostr relays and the Lightning Network, with no tracking, servers, or accounts.
+    </p>
+  </div>
+</footer>

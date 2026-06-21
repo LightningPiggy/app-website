@@ -1,0 +1,126 @@
+---
+import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const DEFAULT_OG_IMAGE = '/images/og-image.png';
+const DEFAULT_OG_ALT = 'Lightning Piggy - Bitcoin savings for the next generation';
+
+const {
+  title,
+  description = 'The Lightning Piggy mobile app - a serverless Bitcoin Lightning wallet and Piglet geocache game for kids and families.',
+  image = DEFAULT_OG_IMAGE,
+  imageAlt,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const absoluteImage = image.startsWith('http') ? image : new URL(image, Astro.site).href;
+const isDefaultImage = image === DEFAULT_OG_IMAGE;
+const ogImageAlt = imageAlt || (isDefaultImage ? DEFAULT_OG_ALT : title);
+
+const siteTitle = title === 'Home' ? 'Lightning Piggy App' : `${title} | Lightning Piggy App`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#EC008C" />
+    <meta name="apple-mobile-web-app-title" content="Lightning Piggy" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="generator" content={Astro.generator} />
+    <title>{siteTitle}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={absoluteImage} />
+    {isDefaultImage && (
+      <>
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+      </>
+    )}
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Lightning Piggy App" />
+    <meta property="og:locale" content="en_GB" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lightningpiggy" />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <link rel="canonical" href={canonicalUrl} />
+  </head>
+  <body class="min-h-screen flex flex-col bg-white">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:text-pink">
+      Skip to main content
+    </a>
+    <Header />
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <!--
+      Give every section heading a stable anchor id so deep links like
+      /page/#some-heading work. Skips headings that already have an id and
+      dedupes against ids already on the page; re-runs the hash scroll once
+      the ids exist (and again on load, after images settle the layout).
+    -->
+    <script>
+      function slugifyHeading(text) {
+        return text.toLowerCase().trim()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/[\s_]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      }
+      function addHeadingAnchors() {
+        const main = document.getElementById('main-content');
+        if (!main) return;
+        const used = new Set();
+        document.querySelectorAll('[id]').forEach((el) => used.add(el.id));
+        main.querySelectorAll('h2, h3, h4').forEach((h) => {
+          if (h.id) { used.add(h.id); return; }
+          const base = slugifyHeading(h.textContent || '');
+          if (!base) return;
+          let id = base;
+          let n = 2;
+          while (used.has(id)) id = base + '-' + n++;
+          used.add(id);
+          h.id = id;
+        });
+      }
+      function scrollToHash() {
+        if (location.hash.length <= 1) return;
+        const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+        if (target) target.scrollIntoView();
+      }
+      addHeadingAnchors();
+      scrollToHash();
+      window.addEventListener('load', scrollToHash);
+    </script>
+  </body>
+</html>
