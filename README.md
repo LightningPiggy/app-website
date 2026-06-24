@@ -11,7 +11,7 @@ Built with [Astro](https://astro.build) + Tailwind, deployed on Netlify.
 ## Pages
 
 - `/` - Get the App (TestFlight beta + Android APK), feature overview, privacy note.
-- `/piglets` - live Piglet geocache map (MapLibre GL + Nostr NIP-GC listings, read-only).
+(The live Piglet "Treasure Hunt" map now lives on the main site at https://lightningpiggy.com/treasure-hunt.)
 
 ## Commands
 
