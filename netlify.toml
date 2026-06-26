@@ -4,3 +4,11 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# The "Get the App" page moved to the main site (lightningpiggy.com/app).
+# Forward the whole subdomain there.
+[[redirects]]
+  from = "/*"
+  to = "https://lightningpiggy.com/app"
+  status = 301
+  force = true
